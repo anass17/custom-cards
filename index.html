@@ -9,24 +9,52 @@
 </head>
 <body>
 
-    <div class="flex">
-        <div class="side-menu">
-            <div class="menu-header">
-                <h2>Menu</h2>
-                <button type="button">X</button>
+    <div class="flex bg-gray-200">
+
+        <!-- Menu -->
+        
+        <div class="side-menu bg-white shadow-[1px_0px_15px_rgba(0,0,0,.15)] w-[30%] h-screen">
+            <div class="menu-header flex justify-between px-6 py-4 border-b border-gray-200">
+                <h2 class="font-semibold text-lg">Menu</h2>
+                <button type="button" class="text-red-500 font-semibold text-xl">X</button>
             </div>
-            <div class="menu-block">
-                <h3>Add Elements</h3>
-                <div class="menu-block-content">
-                    <button type="button">Add Text</button>
-                    <button type="button">Add Image</button>
+            <div class="menu-block px-6 py-4">
+                <h3 class="text-lg font-semibold mb-2">Add Elements</h3>
+                <div class="menu-block-content *:block *:pl-5">
+                    <button type="button" class="mb-2">Add Text</button>
+                    <button type="button" class="mb-2">Add Image</button>
+                    <button type="button">Add Shape</button>
+                </div>
+            </div>
+            <div class="menu-block px-6 py-4">
+                <h3 class="text-lg font-semibold mb-2">Colors</h3>
+                <div class="menu-block-content *:block *:pl-5">
+                    <button type="button" class="mb-2">Text</button>
+                    <button type="button">Background</button>
+                </div>
+            </div>
+            <div class="menu-block px-6 py-4">
+                <h3 class="text-lg font-semibold mb-2">Fonts</h3>
+                <div class="menu-block-content *:block *:pl-5">
+                    <button type="button" class="mb-2">Roboto</button>
+                    <button type="button">35px</button>
+                </div>
+            </div>
+            <div class="menu-block px-6 py-4">
+                <h3 class="text-lg font-semibold mb-2">Effects</h3>
+                <div class="menu-block-content *:block *:pl-5">
+                    <button type="button" class="mb-2">Border</button>
+                    <button type="button">Shadow</button>
                 </div>
             </div>
         </div>
     
-        <div class="container">
-            <div class="card">
-    
+        <div class="flex justify-center items-center w-[70%]">
+
+            <!-- Card -->
+            
+            <div class="card w-[650px] h-[390px] bg-white shadow-lg rounded-md">
+                
             </div>
         </div>
     </div>
