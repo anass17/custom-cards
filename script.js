@@ -1,4 +1,6 @@
 let card = document.querySelector('.card');
+let textColorInput = document.querySelector('.text-color-input');
+let backgroundColorInput = document.querySelector('.background-color-input');
 
 ///////////////////////////////////////////
 /// *** Custom ContextMenu
@@ -8,6 +10,7 @@ let contextmenu = null;
 let clickedX = 0;
 let clickedY = 0;
 let selectedElement = null;
+let elementToChange = null;
 let elementsCounter = 0;
 
 card.addEventListener('contextmenu', function (e) {
@@ -35,8 +38,8 @@ card.addEventListener('contextmenu', function (e) {
     contextmenu.querySelector('.context-add-text').addEventListener('click', function () {
 
         let textInput = document.createElement('textarea');
-        textInput.className = `absolute top-[${clickedY}px] left-[${clickedX}px] resize-none h-[30px] bg-transparent select-none`;
-        textInput.dataset.color = "000000";
+        textInput.className = `absolute top-[${clickedY}px] left-[${clickedX}px] resize-none h-[30px] bg-transparent select-none px-2`;
+        textInput.dataset.color = "#000000";
         textInput.dataset.background = "transparent";
         textInput.placeholder = "Write Here";
         card.append(textInput);
@@ -51,7 +54,12 @@ card.addEventListener('contextmenu', function (e) {
             card.addEventListener('mousemove', moveElements);
         });
 
-        
+        textInput.addEventListener('click', function () {
+            elementToChange = this;
+            textColorInput.value = this.dataset.color;
+            backgroundColorInput.value = this.dataset.background;
+        });
+
         elementsCounter++;
 
     });
@@ -116,6 +124,20 @@ card.addEventListener('contextmenu', function (e) {
 
 card.addEventListener('mouseup', function () {
     card.removeEventListener('mousemove', moveElements);
+});
+
+textColorInput.addEventListener('change', function () {
+    if (elementToChange != null) {
+        elementToChange.style.color = this.value;
+        elementToChange.dataset.color = this.value;
+    }
+});
+
+backgroundColorInput.addEventListener('change', function () {
+    if (elementToChange != null) {
+        elementToChange.style.background = this.value;
+        elementToChange.dataset.background = this.value;
+    }
 });
 
 // Remove the context menu

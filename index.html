@@ -28,9 +28,15 @@
             </div>
             <div class="menu-block px-6 py-4">
                 <h3 class="text-lg font-semibold mb-2">Colors</h3>
-                <div class="menu-block-content *:block *:pl-5">
-                    <button type="button" class="mb-2">Text</button>
-                    <button type="button">Background</button>
+                <div class="menu-block-content">
+                    <div class="flex items-center gap-3 pl-5">
+                        <input type="color" id="text-color" class="text-color-input h-[25px] w-[25px] bg-transparent border-none">
+                        <label type="button" for="text-color">Text</label>
+                    </div>
+                    <div class="flex items-center gap-3 pl-5">
+                        <input type="color" id="background-color" class="background-color-input h-[25px] w-[25px] bg-transparent border-none">
+                        <label type="button" for="background-color">Background</label>
+                    </div>
                 </div>
             </div>
             <div class="menu-block px-6 py-4">
