@@ -14,7 +14,6 @@ let elementToChange = null;
 let elementsCounter = 0;
 
 card.addEventListener('contextmenu', function (e) {
-    console.log(e);
     e.preventDefault();
 
     clickedX = e.offsetX;
@@ -49,6 +48,9 @@ card.addEventListener('contextmenu', function (e) {
         document.removeEventListener('click', removeContextMenu);
 
         textInput.addEventListener('mousedown', function () {
+            clickedX = e.offsetX;
+            clickedY = e.offsetY;
+
             selectedElement = this;
             e.preventDefault();
             card.addEventListener('mousemove', moveElements);
@@ -67,7 +69,11 @@ card.addEventListener('contextmenu', function (e) {
     contextmenu.querySelector('.context-add-image').addEventListener('click', function () {
 
         let inputElement = document.createElement('div');
-        inputElement.className = `absolute top-[${clickedY}px] left-[${clickedX}px]`;
+        // inputElement.style.pointerEvents = "none";
+        inputElement.draggable = "true";
+        inputElement.className = `absolute`;
+        inputElement.style.top = e.offsetY + 'px';
+        inputElement.style.left = e.offsetX + 'px';
         inputElement.innerHTML = 
         `<label for="image-${elementsCounter}" class="bg-gray-200 border border-gray-300 w-[80px] h-[80px] flex justify-center items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 fill-gray-600" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M448 80c8.8 0 16 7.2 16 16l0 319.8-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3L48 96c0-8.8 7.2-16 16-16l384 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
@@ -91,6 +97,21 @@ card.addEventListener('contextmenu', function (e) {
 
                     inputElement.innerHTML = "";
                     inputElement.append(imagePreview);
+
+                    imagePreview.addEventListener('mousedown', function (e) {
+                        clickedX = e.offsetX;
+                        clickedY = e.offsetY;
+                    });
+
+                    imagePreview.addEventListener('mousemove', function (e) {
+                        if (this.parentElement == selectedElement) {
+                            if (this.offsetWidth - e.offsetX < 5 && this.offsetHeight - e.offsetY < 5) {
+                                this.style.cursor = "nwse-resize";
+                            } else {
+                                this.style.cursor = "default";
+                            }
+                        }
+                    });
                 };
         
                 reader.readAsDataURL(file);
@@ -100,20 +121,25 @@ card.addEventListener('contextmenu', function (e) {
         contextmenu.remove();
         contextmenu = null;
         document.removeEventListener('click', removeContextMenu);
-
-        inputElement.addEventListener('mousedown', function () {
-            selectedElement = this;
-            e.preventDefault();
-            card.addEventListener('mousemove', moveElements);
+        
+        inputElement.firstElementChild.addEventListener('mousedown', function (e) {
+            clickedX = e.offsetX;
+            clickedY = e.offsetY;
         });
 
-        inputElement.addEventListener('drag', function (e) {
-            e.preventDefault();
-        })
-
         inputElement.addEventListener('dragstart', function (e) {
-            e.preventDefault();
-        })
+            selectedElement = this;
+            // e.preventDefault();
+            // card.addEventListener('mousemove', moveElements);
+        });
+
+        // inputElement.addEventListener('drag', function (e) {
+        //     e.preventDefault();
+        // })
+
+        // inputElement.addEventListener('dragstart', function (e) {
+        //     e.preventDefault();
+        // })
         
         elementsCounter++;
 
@@ -122,9 +148,17 @@ card.addEventListener('contextmenu', function (e) {
     document.addEventListener('click', removeContextMenu);
 });
 
-card.addEventListener('mouseup', function () {
-    card.removeEventListener('mousemove', moveElements);
-});
+card.addEventListener('dragover', function (e) {
+    e.preventDefault();
+})
+
+card.addEventListener('drop', function (e) {
+    moveElements(e);
+})
+
+// card.addEventListener('mouseup', function () {
+//     card.removeEventListener('mousemove', moveElements);
+// });
 
 textColorInput.addEventListener('change', function () {
     if (elementToChange != null) {
@@ -152,9 +186,12 @@ function removeContextMenu(e) {
 
 // Move cards Elements: Text or Images
 
-function moveElements(e) {
-    // selectedElement.setAttribute('disabled', '');
+function moveElements(e) { 
+    
+    let differenceX = e.offsetX - clickedX;
+    let differenceY = e.offsetY - clickedY;
+    
     e.preventDefault();
-    selectedElement.style.left = e.offsetX + 5 + "px";
-    selectedElement.style.top = e.offsetY + 5 + "px";
+    selectedElement.style.left = differenceX + "px";
+    selectedElement.style.top = differenceY + "px";
 }
